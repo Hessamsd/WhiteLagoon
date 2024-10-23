@@ -51,7 +51,7 @@ namespace WhiteLagoon.Web.Controllers
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction("Error","Home");
             }
             return View(obj);
         }
