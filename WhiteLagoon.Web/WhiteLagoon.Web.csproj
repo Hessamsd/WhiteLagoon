@@ -23,12 +23,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\_Notification.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Villa\Delete.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Villa\Update.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Villa\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_Notification.cshtml" />
   </ItemGroup>
 
 </Project>
