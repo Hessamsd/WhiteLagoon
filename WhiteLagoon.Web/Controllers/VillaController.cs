@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -36,8 +37,11 @@ namespace WhiteLagoon.Web.Controllers
             {
                 _db.Villas.Add(command);
                 _db.SaveChanges();
+                TempData["success"] = "The villa has been created successfully";
                 return RedirectToAction("Index");
             }
+            TempData["error"] = "The Villa could not be created";
+
             return View();
         }
 
@@ -64,9 +68,11 @@ namespace WhiteLagoon.Web.Controllers
             {
                 _db.Villas.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "The villa has been update successfully";
                 return RedirectToAction("Index");
 
             }
+            TempData["error"] = "The Villa could not be update";
             return View();
         }
 
@@ -94,10 +100,12 @@ namespace WhiteLagoon.Web.Controllers
 
                 _db.Villas.Remove(objFromDb);
                 _db.SaveChanges();
+                TempData["success"] = "The villa has been deleted successfully";
                 return RedirectToAction("Index");
 
             }
 
+            TempData["error"] = "The Villa could not be deleted";
             return View();
         }
     }
