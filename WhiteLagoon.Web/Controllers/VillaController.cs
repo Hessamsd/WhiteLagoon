@@ -28,6 +28,10 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Create(Villa command)
         {
+            if(command.Name == command.Description)
+            {
+                ModelState.AddModelError("", "the description cannot exactly match the name");
+            }
             if (ModelState.IsValid)
             {
                 _db.Villas.Add(command);
