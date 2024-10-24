@@ -5,6 +5,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WhiteLagoon.Web.Controllers
 {
+
     public class VillaController : Controller
     {
 
