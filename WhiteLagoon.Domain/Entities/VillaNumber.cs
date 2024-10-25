@@ -6,6 +6,7 @@ namespace WhiteLagoon.Domain.Entities
     public class VillaNumber
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Villa Number")]
         public int Villa_Number { get; set; }
 
         [ForeignKey("Villa")]
