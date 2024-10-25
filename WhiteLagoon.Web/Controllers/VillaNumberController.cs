@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -23,16 +24,20 @@ namespace WhiteLagoon.Web.Controllers
 
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> list = _db.Villas.ToList().Select(x => new SelectListItem
+
+
+            VillaNumberVM vm = new()
             {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
+                VillaList = _db.Villas.ToList().Select(x => new SelectListItem
+                {
 
-           
-            ViewBag.VillaList = list;
+                    Text = x.Name,
+                    Value = x.Id.ToString()
 
-            return View();
+                })
+            };
+
+            return View(vm);
         }
 
         [HttpPost]
