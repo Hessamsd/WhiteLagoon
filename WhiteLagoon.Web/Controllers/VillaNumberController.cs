@@ -26,10 +26,11 @@ namespace WhiteLagoon.Web.Controllers
             IEnumerable<SelectListItem> list = _db.Villas.ToList().Select(x => new SelectListItem
             {
                 Text = x.Name,
-                Value = x.Id.ToString()   
+                Value = x.Id.ToString()
             });
 
-            ViewData["VillaList"] = list;
+           
+            ViewBag.VillaList = list;
 
             return View();
         }
