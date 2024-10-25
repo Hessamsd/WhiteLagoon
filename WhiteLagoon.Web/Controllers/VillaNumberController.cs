@@ -28,6 +28,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Create(VillaNumber command)
         {
+            //ModelState.Remove("Villa");
             if (ModelState.IsValid)
             {
                 _db.VillaNumbers.Add(command);
