@@ -6,14 +6,15 @@ using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Infrastructure.Repository
 {
-    public class VillaRepository : IVillaRepository
+    public class VillaRepository :Repository<Villa> , IVillaRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public VillaRepository(ApplicationDbContext db)
+        public VillaRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
+
         public void Add(Villa entity)
         {
            _db.Add(entity);
