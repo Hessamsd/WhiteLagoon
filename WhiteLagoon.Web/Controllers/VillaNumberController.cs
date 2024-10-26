@@ -9,7 +9,7 @@ namespace WhiteLagoon.Web.Controllers
     public class VillaNumberController : Controller
     {
 
-        private ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
 
         public VillaNumberController(ApplicationDbContext db)
         {
@@ -64,6 +64,25 @@ namespace WhiteLagoon.Web.Controllers
             });
 
             return View(obj);
+        }
+
+
+        public IActionResult Update(int villaNumberId)
+        {
+            VillaNumberVM villaNumberVM = new()
+            {
+                VillaList = _db.Villas.ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                VillaNumber = _db.VillaNumbers.FirstOrDefault(u => u.Villa_Number == villaNumberId)
+            };
+            if (villaNumberVM.VillaNumber == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            return View(villaNumberVM);
         }
     }
 
