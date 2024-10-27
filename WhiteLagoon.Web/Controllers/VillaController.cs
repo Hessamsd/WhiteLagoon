@@ -42,12 +42,21 @@ namespace WhiteLagoon.Web.Controllers
             {
                 if(command.Image != null)
                 {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+                    using var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+
+                    command.Image.CopyTo(fileStream);
+
+                    command.ImageUrl = @"images\VillaImage" + fileName;
 
                 }
                 else
                 {
                     command.ImageUrl = "https://placehold.co/600x400";
                 }
+
                 _unitOfWork.Villa.Add(command);
                 _unitOfWork.Save();
                 TempData["success"] = "The villa has been created successfully";
