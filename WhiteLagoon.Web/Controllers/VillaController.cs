@@ -11,10 +11,12 @@ namespace WhiteLagoon.Web.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VillaController(IUnitOfWork unitOfWork)
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
@@ -38,6 +40,14 @@ namespace WhiteLagoon.Web.Controllers
             }
             if (ModelState.IsValid)
             {
+                if(command.Image != null)
+                {
+
+                }
+                else
+                {
+                    command.ImageUrl = "https://placehold.co/600x400";
+                }
                 _unitOfWork.Villa.Add(command);
                 _unitOfWork.Save();
                 TempData["success"] = "The villa has been created successfully";
