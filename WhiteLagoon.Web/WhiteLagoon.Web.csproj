@@ -36,4 +36,8 @@
     <UpToDateCheckInput Remove="Views\Shared\_Notification.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Villa\" />
+  </ItemGroup>
+
 </Project>
