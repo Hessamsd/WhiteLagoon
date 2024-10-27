@@ -10,6 +10,7 @@ namespace WhiteLagoon.Application.Common.Interfaces
 
         void Add(T entity);
         void Remove(T entity);
-
+        bool Any(Expression<Func<T,bool>> filter);
+        
     }
 }
