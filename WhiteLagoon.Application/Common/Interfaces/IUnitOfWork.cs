@@ -3,5 +3,6 @@
     public interface IUnitOfWork
     {
         IVillaRepository Villa { get; }
+        void Save();
     }
 }
