@@ -86,8 +86,35 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Update(Villa obj)
         {
+
             if (ModelState.IsValid && obj.Id > 0)
             {
+
+                if(obj.Image != null)
+                {
+
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(obj.Image.FileName);
+
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+
+
+                    if (!string.IsNullOrWhiteSpace(obj.ImageUrl))
+                    {
+
+                        var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using var fileStrim = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+                    obj.Image.CopyTo(fileStrim);
+
+                    obj.ImageUrl = @"\images\VillaImage\" + fileName;
+
+                }
                 _unitOfWork.Villa.Update(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "The villa has been update successfully";
