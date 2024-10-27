@@ -49,7 +49,7 @@ namespace WhiteLagoon.Web.Controllers
 
                     command.Image.CopyTo(fileStream);
 
-                    command.ImageUrl = @"images\VillaImage" + fileName;
+                    command.ImageUrl = @"\images\VillaImage\" + fileName;
 
                 }
                 else
