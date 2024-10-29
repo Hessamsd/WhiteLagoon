@@ -75,42 +75,46 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
-            ApplicationUser user = new()
+
+            if (ModelState.IsValid)
             {
-                Name = registerVM.Name,
-                Email = registerVM.Email,
-                PhoneNumber = registerVM.PhoneNumber,
-                NormalizedEmail = registerVM.Email.ToUpper(),
-                EmailConfirmed = true,
-                UserName = registerVM.Email,
-                CreatedAt = DateTime.Now
-            };
-
-            var result = await _userManager.CreateAsync(user, registerVM.Password);
-
-
-            if (result.Succeeded)
-            {
-                if (!string.IsNullOrEmpty(registerVM.Role))
+                ApplicationUser user = new()
                 {
-                    await _userManager.AddToRoleAsync(user, registerVM.Role);
-                }
-                else
-                {
-                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
-                }
+                    Name = registerVM.Name,
+                    Email = registerVM.Email,
+                    PhoneNumber = registerVM.PhoneNumber,
+                    NormalizedEmail = registerVM.Email.ToUpper(),
+                    EmailConfirmed = true,
+                    UserName = registerVM.Email,
+                    CreatedAt = DateTime.Now
+                };
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+                var result = await _userManager.CreateAsync(user, registerVM.Password);
+
+
+                if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return LocalRedirect(registerVM.RedirectUrl);
+                    if (!string.IsNullOrEmpty(registerVM.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, registerVM.Role);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    }
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return LocalRedirect(registerVM.RedirectUrl);
+                    }
                 }
             }
-
+           
             registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem
             {
                 Text = x.Name,

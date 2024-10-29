@@ -24,6 +24,13 @@ builder.Services.ConfigureApplicationCookie(option =>
 });
 
 
+builder.Services.Configure<IdentityOptions>(option =>
+{
+
+    option.Password.RequiredLength = 6;
+
+
+});
 
 
 
