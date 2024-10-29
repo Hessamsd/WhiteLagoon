@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Win32;
+using System.Diagnostics.Eventing.Reader;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Domain.Entities;
@@ -106,9 +106,38 @@ namespace WhiteLagoon.Web.Controllers
                 Value = x.Name
 
             });
-
-
             return View(registerVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM loginVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(loginVM.Email,
+                    loginVM.Password, loginVM.RememberMe, lockoutOnFailure: false);
+
+
+
+                if (result.Succeeded)
+                {
+
+                    if (string.IsNullOrEmpty(loginVM.RedirectUrl))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return LocalRedirect(loginVM.RedirectUrl);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("","Invalid login attempt.");
+                }
+            }
+
+            return View(loginVM);
         }
     }
 }
