@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Web.ViewModels;
@@ -43,10 +44,19 @@ namespace WhiteLagoon.Web.Controllers
             if (!_roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
-                _roleManager.CreateAsync(new IdentityRole("Customer")).Wait(); 
+                _roleManager.CreateAsync(new IdentityRole("Customer")).Wait();
             }
 
-            return View();
+            RegisterVM registerVM = new()
+            {
+                RoleList = _roleManager.Roles.Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Name,
+                })
+            };
+
+            return View(registerVM);
         }
     }
 }
