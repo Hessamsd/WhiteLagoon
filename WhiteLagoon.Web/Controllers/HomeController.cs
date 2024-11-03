@@ -5,7 +5,7 @@ using WhiteLagoon.Web.ViewModels;
 namespace WhiteLagoon.Web.Controllers
 {
 
-   
+
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +16,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
-        
+
         public IActionResult Index()
         {
 
@@ -30,14 +30,15 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+
         [HttpPost]
-        public IActionResult Index(HomeVM homeVM) 
+        public IActionResult Index(HomeVM homeVM)
         {
             homeVM.VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
 
-            foreach(var villa in homeVM.VillaList)
+            foreach (var villa in homeVM.VillaList)
             {
-                if(villa.Id % 2 == 0)
+                if (villa.Id % 2 == 0)
                 {
                     villa.IsAvailable = false;
                 }
@@ -45,6 +46,29 @@ namespace WhiteLagoon.Web.Controllers
 
             return View(homeVM);
 
+        }
+
+
+        public IActionResult GetVillasByDate(int night, DateOnly checkIndate)
+        {
+            var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+
+            foreach (var villa in villaList)
+            {
+
+                if (villa.Id == null)
+                {
+                    villa.IsAvailable = false;
+                }
+            }
+            HomeVM homeVM = new()
+            {
+                CheckInDate = checkIndate,
+                VillaList = villaList,
+                Night = night,
+            };
+
+            return View(homeVM);
         }
 
 
