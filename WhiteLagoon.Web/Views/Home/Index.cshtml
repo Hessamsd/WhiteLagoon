@@ -61,7 +61,6 @@
         <div id="VillasList">
             <div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0">
 
-
                 @foreach (var villa in Model.VillaList)
                 {
                     <div class="p-4 col-md-12 col-lg-6">
@@ -85,7 +84,7 @@
                             <div class="col-12">
                                 <div class="row pb-3 pt-2">
                                     <div class="col-4">
-                                        @if (Model.CheckInDate >= DateOnly.FromDateTime(DateTime.Now))
+                                        @if (Model.CheckInDate > DateOnly.FromDateTime(DateTime.Now))
                                         {
 
                                             if (villa.IsAvailable)
@@ -140,8 +139,6 @@
                         </div>
                     </div>
                 }
-
-
             </div>
         </div>
 
