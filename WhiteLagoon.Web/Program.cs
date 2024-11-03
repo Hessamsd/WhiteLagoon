@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
@@ -10,11 +12,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();//AddDefaultTokenProviders();
+
+
+builder.Services.Configure<IdentityOptions>(option =>
+{
+
+    option.Password.RequiredLength = 6;
+
+});
+
+
 
 
 builder.Services.ConfigureApplicationCookie(option =>
@@ -24,24 +39,19 @@ builder.Services.ConfigureApplicationCookie(option =>
 });
 
 
-builder.Services.Configure<IdentityOptions>(option =>
-{
-
-    option.Password.RequiredLength = 6;
-
-
-});
-
-
-
-
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
+
+
+
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -51,15 +61,33 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+
+
+
+
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+
+
 app.Run();
+
+
+
+
+
+
+
+
+
+
+
