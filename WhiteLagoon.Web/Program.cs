@@ -65,6 +65,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//app.UseWebSockets();
 app.UseRouting();
 app.UseAuthorization();
 

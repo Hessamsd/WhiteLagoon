@@ -68,7 +68,7 @@ namespace WhiteLagoon.Web.Controllers
                 Night = night,
             };
 
-            return View(homeVM);
+            return PartialView("_VillaList", homeVM);
         }
 
 
