@@ -72,7 +72,7 @@
 
         function fnLoadVillaList() {
 
-
+            $('.spinner').show();
             var objData = {
 
                 checkInDate: $("#CheckInDate").val(),
@@ -90,9 +90,19 @@
 
                     $("#VillasList").empty();
                     $("#VillasList").html(data);
+                    $('.spinner').hide();
+                },
+                failure: function (response) {
 
+                    $('.spinner').hide();
+                    alert(response.responceText)
+                },
+                error: function (response) {
+                    $('.spinner').hide();
+                    alert(response.responceText)
 
                 }
+
 
             });
 
