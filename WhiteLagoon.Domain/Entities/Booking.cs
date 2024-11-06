@@ -39,7 +39,7 @@ namespace WhiteLagoon.Domain.Entities
         [Required]
         public DateOnly CheckInDate { get; set; }
         [Required]
-        public DateOnly OutInDate { get; set; }
+        public DateOnly CheckOutDate { get; set; }
 
         public bool IsPaymentSuccessFull { get; set; }
         public DateTime PaymentDate { get; set; }
