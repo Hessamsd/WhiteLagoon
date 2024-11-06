@@ -112,14 +112,3 @@
 }
 
 
-
-        $.ajax({
-            type: "POST",
-            data: objData,
-            url: "@Url.Action("GetVillasByDate", "Home")",
-            success: function (data) {
-                $("#VillasList").empty();
-                $("#VillasList").html(data);
-            }
-        });
-                }
