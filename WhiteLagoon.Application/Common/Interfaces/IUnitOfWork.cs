@@ -3,9 +3,10 @@
     public interface IUnitOfWork
     {
         IVillaRepository Villa { get; }
-        IVillaNumberRepository VillaNumber { get; }
         IAmenityRepository Amenity { get; }
         IBookingRepository Booking { get; }
+        IApplicationUserRepository ApplicationUser { get; }
+        IVillaNumberRepository VillaNumber { get; }
         void Save();
     }
 }
