@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Repository;
 
@@ -7,9 +8,9 @@ namespace WhiteLagoon.Web.Controllers
     public class BookingController : Controller
     {
 
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BookingController(UnitOfWork unitOfWork)
+        public BookingController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

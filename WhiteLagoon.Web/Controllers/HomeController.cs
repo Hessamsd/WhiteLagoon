@@ -55,14 +55,13 @@ namespace WhiteLagoon.Web.Controllers
         public IActionResult GetVillasByDate(int night, DateOnly checkIndate)
         {
 
-
           
             var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
 
             foreach (var villa in villaList)
             {
 
-                if (villa.Id == null)
+                if (villa.Id % 2 == 0 )
                 {
                     villa.IsAvailable = false;
                 }
