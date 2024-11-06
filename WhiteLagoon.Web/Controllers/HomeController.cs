@@ -23,7 +23,7 @@ namespace WhiteLagoon.Web.Controllers
             HomeVM homeVM = new()
             {
                 VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
-                Night = 1,
+                Nights = 1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
             return View(homeVM);
@@ -65,12 +65,11 @@ namespace WhiteLagoon.Web.Controllers
             {
                 CheckInDate = checkIndate,
                 VillaList = villaList,
-                Night = night,
+                Nights = night,
             };
 
             return PartialView("_VillaList", homeVM);
         }
-
 
 
 
