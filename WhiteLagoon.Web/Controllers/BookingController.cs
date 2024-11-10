@@ -20,6 +20,18 @@ namespace WhiteLagoon.Web.Controllers
 
 
 
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+
+
+
+
+
         [Authorize]
         public IActionResult FinalizeBooking(int villaId, DateOnly CheckIndate, int nights)
         {
