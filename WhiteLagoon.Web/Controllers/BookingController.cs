@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Domain.Entities;
 
 namespace WhiteLagoon.Web.Controllers
@@ -49,5 +50,36 @@ namespace WhiteLagoon.Web.Controllers
 
         }
 
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult FinalizeBooking(Booking booking)
+        {
+            var villa = _unitOfWork.Villa.Get(x => x.Id == booking.VillaId);
+
+            booking.TotalCost = booking.Villa.Price * booking.Nights;
+            booking.Status = SD.StatusPending;
+            booking.BookinDate = DateTime.Now;
+
+            
+            _unitOfWork.Booking.Add(booking);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(BookingConfirmation), new { BookingId = booking.Id });
+                
+
+
+
+        }
+
+
+
+        [Authorize]
+        public  IActionResult BookingConfirmation(int bookingId)
+        {
+            return View(bookingId);
+        }
+
+        
+       
     }
 }
