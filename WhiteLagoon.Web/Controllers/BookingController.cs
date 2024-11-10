@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
-using WhiteLagoon.Infrastructure.Repository;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -15,8 +16,18 @@ namespace WhiteLagoon.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
+
+        [Authorize]
         public IActionResult FinalizeBooking(int villaId, DateOnly CheckIndate, int nights)
         {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+
+            ApplicationUser user = _unitOfWork.User.Get(x => x.Id == userId);
+
             Booking booking = new()
             {
                 VillaId = villaId,
@@ -24,10 +35,19 @@ namespace WhiteLagoon.Web.Controllers
                 CheckInDate = CheckIndate,
                 Nights = nights,
                 CheckOutDate = CheckIndate.AddDays(nights),
+                UserId = userId,
+                Phone = user.PhoneNumber,
+                Email = user.Email,
+                Name = user.Name
 
             };
+
+
             booking.TotalCost = booking.Villa.Price * nights;
             return View(booking);
+
+
         }
+
     }
 }

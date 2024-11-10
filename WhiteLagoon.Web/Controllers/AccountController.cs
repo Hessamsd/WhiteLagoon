@@ -9,8 +9,7 @@ using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+  
     public class AccountController : Controller
     {
 
@@ -31,6 +30,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+  
         public IActionResult Login(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -43,6 +43,7 @@ namespace WhiteLagoon.Web.Controllers
             return View(loginVM);
         }
 
+  
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -54,6 +55,8 @@ namespace WhiteLagoon.Web.Controllers
             return View();
         }
 
+
+        
         public IActionResult Register(string returnUrl = null)
         {
 
@@ -77,6 +80,8 @@ namespace WhiteLagoon.Web.Controllers
             return View(registerVM);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
@@ -91,6 +96,7 @@ namespace WhiteLagoon.Web.Controllers
                     NormalizedEmail = registerVM.Email.ToUpper(),
                     EmailConfirmed = true,
                     UserName = registerVM.Email,
+                    
                     CreatedAt = DateTime.Now
                 };
 
@@ -120,7 +126,7 @@ namespace WhiteLagoon.Web.Controllers
                     }
                 }
             }
-           
+
             registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem
             {
                 Text = x.Name,
@@ -129,6 +135,8 @@ namespace WhiteLagoon.Web.Controllers
             });
             return View(registerVM);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM loginVM)
@@ -154,7 +162,7 @@ namespace WhiteLagoon.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("","Invalid login attempt.");
+                    ModelState.AddModelError("", "Invalid login attempt.");
                 }
             }
 

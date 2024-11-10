@@ -1,94 +1,92 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Infrastructure.Repository;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddDbContext<ApplicationDbContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();//AddDefaultTokenProviders();
-
-
-builder.Services.Configure<IdentityOptions>(option =>
+public class Program
 {
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-    option.Password.RequiredLength = 6;
-
-});
-
-
-
-
-builder.Services.ConfigureApplicationCookie(option =>
-{
-    option.AccessDeniedPath = "/Account/AccessDenied";
-    option.LoginPath = "/Account/Login";
-});
-
-
-
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllers();
 
 
 
 
 
-
-var app = builder.Build();
-
-
+        builder.Services.AddDbContext<ApplicationDbContext>(option =>
+        option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();//AddDefaultTokenProviders();
+
+
+        builder.Services.Configure<IdentityOptions>(option =>
+        {
+
+            option.Password.RequiredLength = 6;
+
+        });
+
+
+
+
+        builder.Services.ConfigureApplicationCookie(option =>
+        {
+            option.AccessDeniedPath = "/Account/AccessDenied";
+            option.LoginPath = "/Account/Login";
+
+        });
+
+
+
+
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+
+
+
+
+        var app = builder.Build();
+
+
+
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        //app.UseWebSockets();
+        app.UseRouting();
+        app.UseAuthorization();
+
+
+
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+        app.MapControllers();
+
+
+        app.Run();
+    }
 }
-
-
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-//app.UseWebSockets();
-app.UseRouting();
-app.UseAuthorization();
-
-
-
-
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-
-
-app.Run();
-
-
-
-
-
-
-
-
-
-
-
