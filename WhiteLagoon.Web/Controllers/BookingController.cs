@@ -57,18 +57,17 @@ namespace WhiteLagoon.Web.Controllers
         {
             var villa = _unitOfWork.Villa.Get(x => x.Id == booking.VillaId);
 
-            booking.TotalCost = booking.Villa.Price * booking.Nights;
+            booking.TotalCost = villa.Price * booking.Nights;
             booking.Status = SD.StatusPending;
             booking.BookinDate = DateTime.Now;
 
             
+
+
             _unitOfWork.Booking.Add(booking);
             _unitOfWork.Save();
             return RedirectToAction(nameof(BookingConfirmation), new { BookingId = booking.Id });
                 
-
-
-
         }
 
 

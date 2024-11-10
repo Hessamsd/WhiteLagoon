@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Booking\BookingConfirmation.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Notification.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Villa\Delete.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Villa\Update.cshtml" />
@@ -40,6 +41,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\VillaImage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Booking\BookingConfirmation.cshtml" />
   </ItemGroup>
 
 </Project>

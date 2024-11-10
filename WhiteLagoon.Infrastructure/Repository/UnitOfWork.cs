@@ -30,5 +30,7 @@ namespace WhiteLagoon.Infrastructure.Repository
         {
             _db.SaveChanges();
         }
+
+
     }
 }
