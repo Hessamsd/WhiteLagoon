@@ -45,7 +45,7 @@ namespace WhiteLagoon.Infrastructure.Repository
         }
 
 
-        public void UpdateStripPaymentID(int bookingId, string sessionId, string paymentIntentId)
+        public void UpdateStripePaymentID(int bookingId, string sessionId, string paymentIntentId)
         {
             var bookingFromDb = _db.Bookings.FirstOrDefault(m => m.Id == bookingId);
             
