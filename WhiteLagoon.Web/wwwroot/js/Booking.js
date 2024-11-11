@@ -9,7 +9,7 @@ $(document).ready(function () {
 function loadDataTable(status) {
     dataTable = $('#tblBookings').DataTable({
         "ajax": {
-            url: '/booking/getall?status=' + status
+            url: '/booking/getall?status=' + status,
             dataSrc: function (json) {
                 console.log(json);
                 return json.data || json; 
