@@ -20,6 +20,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -70,7 +71,7 @@ namespace WhiteLagoon.Web.Controllers
             booking.Status = SD.StatusPending;
             booking.BookinDate = DateTime.Now;
 
-            
+
 
 
             _unitOfWork.Booking.Add(booking);
@@ -113,7 +114,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         [Authorize]
-        public  IActionResult BookingConfirmation(int bookingId)
+        public IActionResult BookingConfirmation(int bookingId)
         {
 
             Booking bookingFromDb = _unitOfWork.Booking.Get(u => u.Id == bookingId,
@@ -127,7 +128,7 @@ namespace WhiteLagoon.Web.Controllers
                 {
                     _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, SD.StatusApproved);
                     _unitOfWork.Booking.UpdateStripePaymentID(bookingFromDb.Id, session.Id, session.PaymentIntentId);
-                                        
+
                     _unitOfWork.Save();
                 }
             }
@@ -138,10 +139,10 @@ namespace WhiteLagoon.Web.Controllers
 
 
 
-        #region
+        #region API Calls
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetAll()
         {
             IEnumerable<Booking> objBookings;
@@ -149,21 +150,19 @@ namespace WhiteLagoon.Web.Controllers
 
             if (User.IsInRole(SD.Role_Admin))
             {
-                objBookings = _unitOfWork.Booking.GetAll(includeProperties:"User,Villa");
+                objBookings = _unitOfWork.Booking.GetAll(includeProperties: "User,Villa");
             }
             else
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                objBookings = _unitOfWork.Booking.GetAll(u => u.UserId == userId,includeProperties: "User,Villa");
+                objBookings = _unitOfWork.Booking
+                    .GetAll(u => u.UserId == userId, includeProperties: "User,Villa");
             }
 
             return Json(new { data = objBookings });
-
         }
-
-
 
         #endregion
 
