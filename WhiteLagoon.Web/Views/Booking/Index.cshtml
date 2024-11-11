@@ -1,4 +1,4 @@
-﻿
+﻿@using WhiteLagoon.Application.Common.Utility
 
 <div class="w-100 card border-0 p-4">
 
@@ -16,7 +16,37 @@
     </div>
 
     <div class="card-body border p-4">
-        
+
+        <div class="d-flex justify-content-between p-4 p-2">
+            <ul class="list-group list-group-horizontal-sm">
+
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index"
+                   asp-route-status="@SD.StatusPending">
+                </a>
+                <li class="list-group-item">@SD.StatusPending</li>
+
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index"
+                   asp-route-status="@SD.StatusApproved">
+                </a>
+                <li class="list-group-item">@SD.StatusApproved</li>
+
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index"
+                   asp-route-status="@SD.StatusCheckedIn">
+                </a>
+                <li class="list-group-item">@SD.StatusCheckedIn</li>
+
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index"
+                   asp-route-status="@SD.StatusCompleted">
+                </a>
+                <li class="list-group-item">@SD.StatusCompleted</li>
+
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index"
+                   asp-route-status="@SD.StatusCancelled">
+                </a>
+                <li class="list-group-item">@SD.StatusCancelled</li>
+            </ul>
+        </div>
+
         <table id="tblBookings" class="table table-bordered table-striped">
 
             <thead>
@@ -33,14 +63,13 @@
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
     </div>
 </div>
 
 
-@section Scripts{
+@section Scripts {
 
     <script src="~/js/booking.js"></script>
 

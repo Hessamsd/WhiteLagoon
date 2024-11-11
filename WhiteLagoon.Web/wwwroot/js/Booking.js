@@ -9,8 +9,8 @@ function loadDataTable() {
         "ajax": {
             url: '/booking/getall',
             dataSrc: function (json) {
-                console.log(json); // Log the response data for debugging
-                return json.data || json; // If data is inside 'data', use that
+                console.log(json);
+                return json.data || json; 
             },
             error: function (xhr, error, code) {
                 console.log("Error loading data: " + error);
