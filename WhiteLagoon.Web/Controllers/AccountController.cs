@@ -9,7 +9,7 @@ using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers
 {
-  
+
     public class AccountController : Controller
     {
 
@@ -30,7 +30,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
-  
+
         public IActionResult Login(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -43,7 +43,7 @@ namespace WhiteLagoon.Web.Controllers
             return View(loginVM);
         }
 
-  
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -56,7 +56,7 @@ namespace WhiteLagoon.Web.Controllers
         }
 
 
-        
+
         public IActionResult Register(string returnUrl = null)
         {
 
@@ -96,7 +96,7 @@ namespace WhiteLagoon.Web.Controllers
                     NormalizedEmail = registerVM.Email.ToUpper(),
                     EmailConfirmed = true,
                     UserName = registerVM.Email,
-                    
+
                     CreatedAt = DateTime.Now
                 };
 
@@ -151,13 +151,22 @@ namespace WhiteLagoon.Web.Controllers
                 if (result.Succeeded)
                 {
 
-                    if (string.IsNullOrEmpty(loginVM.RedirectUrl))
+                    var user = await _userManager.FindByEmailAsync(loginVM.Email);
+
+                    if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                     else
                     {
-                        return LocalRedirect(loginVM.RedirectUrl);
+                        if (string.IsNullOrEmpty(loginVM.RedirectUrl))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            return LocalRedirect(loginVM.RedirectUrl);
+                        }
                     }
                 }
                 else
